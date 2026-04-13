@@ -1,0 +1,26 @@
+name: BodyRecomp
+options:
+  bundleIdPrefix: com.tyler.fitness
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "16"
+  defaultConfig: Debug
+  createIntermediateGroups: true
+
+targets:
+  BodyRecomp:
+    type: application
+    platform: iOS
+    sources:
+      - path: BodyRecomp
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tyler.fitness.BodyRecomp
+        SWIFT_VERSION: "5.0"
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        INFOPLIST_FILE: BodyRecomp/Info.plist
+        DEVELOPMENT_TEAM: ""
+        CODE_SIGN_STYLE: Automatic
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    info:
+      path: BodyRecomp/Info.plist
