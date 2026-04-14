@@ -36,7 +36,7 @@ struct DayStatusCell: View {
 
                 Text(date.dayNumber)
                     .font(.caption.monospacedDigit())
-                    .foregroundStyle(isFuture ? .tertiary : (isToday ? .brandGreen : .primary))
+                    .foregroundColor(isFuture ? .secondary.opacity(0.5) : (isToday ? .brandGreen : .primary))
             }
 
             // Protein dot indicator

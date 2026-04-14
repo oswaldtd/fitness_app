@@ -6,7 +6,20 @@ extension Color {
     static let brandGreenDim = Color(red: 0.18, green: 0.78, blue: 0.44).opacity(0.15)
     static let brandOrange = Color(red: 1.0, green: 0.58, blue: 0.0)
     static let brandRed = Color(red: 0.95, green: 0.27, blue: 0.27)
+}
 
+extension ShapeStyle where Self == Color {
+    static var brandGreen: Color { Color.brandGreen }
+    static var brandGreenDim: Color { Color.brandGreenDim }
+    static var brandOrange: Color { Color.brandOrange }
+    static var brandRed: Color { Color.brandRed }
+    static var proteinColor: Color { Color.proteinColor }
+    static var calorieColor: Color { Color.calorieColor }
+    static var sleepColor: Color { Color.sleepColor }
+    static var energyColor: Color { Color.energyColor }
+}
+
+extension Color {
     // MARK: - Semantic
     static let proteinColor = Color(red: 0.18, green: 0.78, blue: 0.44)   // green
     static let calorieColor = Color(red: 0.98, green: 0.73, blue: 0.18)   // amber

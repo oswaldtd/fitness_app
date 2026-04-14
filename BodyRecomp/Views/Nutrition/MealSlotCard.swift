@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct MealSlotCard: View {
+    @Environment(\.modelContext) private var modelContext
     let meal: Meal
     let slot: MealSlot
     let log: DailyLog?
@@ -13,33 +14,51 @@ struct MealSlotCard: View {
         log?.mealLogs.first(where: { $0.slot == slot })
     }
 
+    private var isCheckedOff: Bool {
+        slotLog != nil
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Header
-            Button {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    isExpanded.toggle()
-                }
-            } label: {
-                HStack {
-                    Text(slot.emoji)
-                    Text(slot.displayName)
-                        .font(.headline)
-                    Spacer()
-                    VStack(alignment: .trailing, spacing: 2) {
-                        Text("\(meal.totalCalories) cal")
-                            .font(.subheadline.monospacedDigit())
-                        Text("\(Int(meal.totalProtein))g protein")
-                            .font(.caption)
-                            .foregroundStyle(.proteinColor)
+            HStack {
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        isExpanded.toggle()
                     }
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .padding(.leading, 4)
+                } label: {
+                    HStack {
+                        Text(slot.emoji)
+                        Text(slot.displayName)
+                            .font(.headline)
+                            .strikethrough(isCheckedOff, color: .secondary)
+                        Spacer()
+                        VStack(alignment: .trailing, spacing: 2) {
+                            Text("\(meal.totalCalories) cal")
+                                .font(.subheadline.monospacedDigit())
+                            Text("\(Int(meal.totalProtein))g protein")
+                                .font(.caption)
+                                .foregroundStyle(.proteinColor)
+                        }
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .padding(.leading, 4)
+                    }
                 }
+                .buttonStyle(.plain)
+
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        toggleMealCheckOff()
+                    }
+                } label: {
+                    Image(systemName: isCheckedOff ? "checkmark.circle.fill" : "circle")
+                        .font(.title2)
+                        .foregroundColor(isCheckedOff ? .brandGreen : .secondary)
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
             .padding()
 
             if isExpanded {
@@ -80,6 +99,17 @@ struct MealSlotCard: View {
             }
         }
         .cardStyle(padding: 0)
+    }
+
+    private func toggleMealCheckOff() {
+        guard let log else { return }
+        if let existing = slotLog {
+            log.mealLogs.removeAll { $0.id == existing.id }
+            modelContext.delete(existing)
+        } else {
+            let mealLog = MealLog(slot: slot)
+            log.mealLogs.append(mealLog)
+        }
     }
 }
 

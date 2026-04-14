@@ -77,8 +77,8 @@ struct NutritionView: View {
             .navigationBarTitleDisplayMode(.large)
         }
         .sheet(isPresented: $showingDeviationSheet) {
-            if let slot = deviationSlot, let log = ensureTodayLog() {
-                DeviationSheet(slot: slot, dailyLog: log)
+            if let slot = deviationSlot {
+                DeviationSheet(slot: slot, dailyLog: ensureTodayLog())
             }
         }
         .onAppear {

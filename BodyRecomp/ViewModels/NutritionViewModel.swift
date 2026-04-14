@@ -38,7 +38,15 @@ final class NutritionViewModel {
     }
 
     func actualCalories(log: DailyLog, variant: DayVariant, plan: MealPlan) -> Int {
-        var total = planCalories(variant: variant, plan: plan)
+        let meals = mealsForVariant(variant, from: plan)
+        var total = 0
+
+        // Add calories from checked-off meals
+        for mealLog in log.mealLogs {
+            if let meal = meals[mealLog.slot] {
+                total += meal.totalCalories
+            }
+        }
 
         // Add completed gap-closers
         for addLog in log.additionLogs where addLog.completed {
@@ -56,7 +64,15 @@ final class NutritionViewModel {
     }
 
     func actualProtein(log: DailyLog, variant: DayVariant, plan: MealPlan) -> Double {
-        var total = planProtein(variant: variant, plan: plan)
+        let meals = mealsForVariant(variant, from: plan)
+        var total = 0.0
+
+        // Add protein from checked-off meals
+        for mealLog in log.mealLogs {
+            if let meal = meals[mealLog.slot] {
+                total += meal.totalProtein
+            }
+        }
 
         for addLog in log.additionLogs where addLog.completed {
             if let addition = plan.dailyAdditions.first(where: { $0.id == addLog.additionID }) {

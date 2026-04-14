@@ -71,7 +71,7 @@ struct ExerciseLogger: View {
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.title3)
-                            .foregroundStyle(repsInput.isEmpty ? .secondary : .brandGreen)
+                            .foregroundColor(repsInput.isEmpty ? .secondary : .brandGreen)
                     }
                     .disabled(repsInput.isEmpty)
                 }
