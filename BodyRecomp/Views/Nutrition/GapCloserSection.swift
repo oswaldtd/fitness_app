@@ -3,6 +3,7 @@ import SwiftUI
 struct GapCloserSection: View {
     let log: DailyLog
     let plan: MealPlan
+    var onToggled: () -> Void = {}
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -84,6 +85,7 @@ struct GapCloserSection: View {
         if let existing = log.additionLogs.first(where: { $0.additionID == addition.id }) {
             existing.completed.toggle()
             existing.loggedAt = existing.completed ? Date() : nil
+            onToggled()
         }
     }
 

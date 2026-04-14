@@ -3,6 +3,7 @@ import SwiftUI
 struct WeekSummaryBanner: View {
     let logs: [DailyLog]
     let targetProtein: Double
+    var targetCalories: Int = 2050
     let viewModel: WeekViewModel
 
     private var daysLogged: Int { logs.filter { $0.isComplete }.count }
@@ -47,7 +48,27 @@ struct WeekSummaryBanner: View {
                         .font(.title3.bold())
                         .foregroundStyle(.tertiary)
                 }
-                Text("Avg Protein")
+                Text("Protein")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity)
+
+            Divider()
+                .frame(height: 50)
+
+            // Avg calories
+            VStack(spacing: 4) {
+                if let avg = viewModel.avgCalories(logs: logs) {
+                    Text("\(Int(avg))")
+                        .font(.title3.bold().monospacedDigit())
+                        .foregroundStyle(avg <= Double(targetCalories) * 1.1 ? .brandGreen : .brandOrange)
+                } else {
+                    Text("—")
+                        .font(.title3.bold())
+                        .foregroundStyle(.tertiary)
+                }
+                Text("Calories")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
@@ -67,7 +88,7 @@ struct WeekSummaryBanner: View {
                         .font(.title3.bold())
                         .foregroundStyle(.tertiary)
                 }
-                Text("Avg Sleep")
+                Text("Sleep")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }

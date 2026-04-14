@@ -4,6 +4,7 @@ import SwiftData
 struct DeviationSheet: View {
     let slot: MealSlot
     let dailyLog: DailyLog
+    var onSaved: () -> Void = {}
 
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -65,11 +66,11 @@ struct DeviationSheet: View {
     private func deviationEditor(for type: DeviationType) -> some View {
         switch type {
         case .substitution:
-            SubstitutionEditor(slot: slot, dailyLog: dailyLog, onSave: { dismiss() })
+            SubstitutionEditor(slot: slot, dailyLog: dailyLog, onSave: { onSaved(); dismiss() })
         case .offPlan:
-            OffPlanMealEditor(slot: slot, dailyLog: dailyLog, onSave: { dismiss() })
+            OffPlanMealEditor(slot: slot, dailyLog: dailyLog, onSave: { onSaved(); dismiss() })
         case .unplanned:
-            UnplannedAdditionEditor(dailyLog: dailyLog, onSave: { dismiss() })
+            UnplannedAdditionEditor(dailyLog: dailyLog, onSave: { onSaved(); dismiss() })
         }
     }
 

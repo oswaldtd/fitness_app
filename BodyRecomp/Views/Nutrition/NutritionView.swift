@@ -51,6 +51,11 @@ struct NutritionView: View {
                                     onDeviation: {
                                         deviationSlot = slot
                                         showingDeviationSheet = true
+                                    },
+                                    onMealToggled: {
+                                        if let log = todayLog {
+                                            viewModel.syncDailyTotals(log: log, variant: currentVariant, plan: plan)
+                                        }
                                     }
                                 )
                                 .padding(.horizontal)
@@ -59,7 +64,9 @@ struct NutritionView: View {
 
                         // Gap-closers
                         if let log = todayLog {
-                            GapCloserSection(log: log, plan: plan)
+                            GapCloserSection(log: log, plan: plan, onToggled: {
+                                viewModel.syncDailyTotals(log: log, variant: currentVariant, plan: plan)
+                            })
                                 .padding(.horizontal)
                         }
 
@@ -77,12 +84,19 @@ struct NutritionView: View {
             .navigationBarTitleDisplayMode(.large)
         }
         .sheet(isPresented: $showingDeviationSheet) {
-            if let slot = deviationSlot {
-                DeviationSheet(slot: slot, dailyLog: ensureTodayLog())
+            if let slot = deviationSlot, let plan = activePlan {
+                DeviationSheet(slot: slot, dailyLog: ensureTodayLog(), onSaved: {
+                    if let log = todayLog {
+                        viewModel.syncDailyTotals(log: log, variant: currentVariant, plan: plan)
+                    }
+                })
             }
         }
         .onAppear {
-            _ = ensureTodayLog()
+            let log = ensureTodayLog()
+            if let plan = activePlan {
+                viewModel.syncDailyTotals(log: log, variant: currentVariant, plan: plan)
+            }
         }
     }
 
@@ -101,6 +115,9 @@ struct NutritionView: View {
             set: { newVariant in
                 let log = ensureTodayLog()
                 log.dayVariant = newVariant
+                if let plan = activePlan {
+                    viewModel.syncDailyTotals(log: log, variant: newVariant, plan: plan)
+                }
             }
         )
     }

@@ -7,6 +7,11 @@ struct DayStatusCell: View {
 
     private var isFuture: Bool { date > Date() && !Calendar.current.isDateInToday(date) }
 
+    private var isRestDay: Bool {
+        let weekday = Calendar.current.component(.weekday, from: date)
+        return weekday == 1 || weekday == 7
+    }
+
     private var completionColor: Color {
         guard let log else { return .clear }
         let score = log.completionScore
@@ -16,7 +21,7 @@ struct DayStatusCell: View {
     }
 
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 3) {
             Text(date.shortDayLabel)
                 .font(.caption2.weight(.semibold))
                 .foregroundStyle(isToday ? .brandGreen : .secondary)
@@ -39,16 +44,28 @@ struct DayStatusCell: View {
                     .foregroundColor(isFuture ? .secondary.opacity(0.5) : (isToday ? .brandGreen : .primary))
             }
 
-            // Protein dot indicator
-            if let log, let protein = log.proteinGrams {
-                Circle()
-                    .fill(protein >= 160 ? Color.brandGreen : Color.brandOrange)
-                    .frame(width: 4, height: 4)
+            // Pillar icons
+            if let log, !isFuture {
+                HStack(spacing: 2) {
+                    pillarIcon("fork.knife", filled: !log.mealLogs.isEmpty)
+                    if !isRestDay {
+                        pillarIcon("dumbbell.fill", filled: log.workoutCompleted)
+                    }
+                    pillarIcon("moon.fill", filled: log.sleepQuality != nil)
+                    pillarIcon("cup.and.saucer.fill", filled: log.shakeCompleted)
+                }
             } else {
-                Circle()
-                    .fill(Color.clear)
-                    .frame(width: 4, height: 4)
+                // Placeholder to keep layout consistent
+                HStack(spacing: 2) {
+                    pillarIcon("fork.knife", filled: false).opacity(0)
+                }
             }
         }
+    }
+
+    private func pillarIcon(_ name: String, filled: Bool) -> some View {
+        Image(systemName: name)
+            .font(.system(size: 6))
+            .foregroundStyle(filled ? .brandGreen : .secondary.opacity(0.4))
     }
 }

@@ -87,6 +87,13 @@ final class NutritionViewModel {
         return total
     }
 
+    // MARK: - Sync totals to stored fields
+
+    func syncDailyTotals(log: DailyLog, variant: DayVariant, plan: MealPlan) {
+        log.caloriesConsumed = actualCalories(log: log, variant: variant, plan: plan)
+        log.proteinGrams = actualProtein(log: log, variant: variant, plan: plan)
+    }
+
     func calorieProgress(log: DailyLog, variant: DayVariant, plan: MealPlan) -> Double {
         guard plan.targetCal > 0 else { return 0 }
         return Double(actualCalories(log: log, variant: variant, plan: plan)) / Double(plan.targetCal)

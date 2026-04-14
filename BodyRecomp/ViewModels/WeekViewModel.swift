@@ -55,6 +55,25 @@ final class WeekViewModel {
         return Double(achieved) / Double(values.count)
     }
 
+    func avgCalories(logs: [DailyLog]) -> Double? {
+        let values = logs.compactMap { $0.caloriesConsumed }.map { Double($0) }
+        guard !values.isEmpty else { return nil }
+        return values.reduce(0, +) / Double(values.count)
+    }
+
+    func currentStreak(logs: [DailyLog]) -> Int {
+        let sorted = logs.sorted { $0.date > $1.date }
+        var streak = 0
+        for log in sorted {
+            if log.completionScore >= 0.8 {
+                streak += 1
+            } else {
+                break
+            }
+        }
+        return streak
+    }
+
     // MARK: - Day log lookup
 
     func log(for date: Date, from logs: [DailyLog]) -> DailyLog? {

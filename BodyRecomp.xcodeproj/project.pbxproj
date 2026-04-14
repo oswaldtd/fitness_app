@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0056A445A3FF4139E2DCF82D /* DayDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2FFFAA9765B7D7737B2BF0 /* DayDetailSheet.swift */; };
 		043740492D57558CEB68795A /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867725F5897714323F1FCEA8 /* Meal.swift */; };
 		0863570A04FD9855A5D7B4D8 /* SleepHistoryChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E6F220D33F0EFDFC126FE9 /* SleepHistoryChart.swift */; };
 		0BE19973185B8C4413A46B40 /* PlanDiffReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7D533859450D2642A62805 /* PlanDiffReviewView.swift */; };
@@ -36,6 +35,7 @@
 		75F59EFEB7E4B415582DE270 /* SleepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058004BFFD50C1D8F71B6F6 /* SleepView.swift */; };
 		7B0C6278C2A4DDF6B5D1925D /* APIKeyEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344BC3BF2E050F039B4DE0E9 /* APIKeyEntryView.swift */; };
 		84DA8B45F57D00C8E270B316 /* TrainingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE510F0D6EEC4405C8EBD84E /* TrainingSession.swift */; };
+		B1C2D3E4F5061728394A5B6C /* TodaySnapshotCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718091A2B3C /* TodaySnapshotCard.swift */; };
 		85B687C48C7895EEBB0A2254 /* NutritionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E261E26212CF43892B5235F /* NutritionViewModel.swift */; };
 		85E24EDE80C8E3848A22E33E /* PlanDiffApplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBE4411C1C83C1BDFB1EE2F /* PlanDiffApplicator.swift */; };
 		88DF455F60D137F7AD4D765E /* SeedGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A4A81FB8535137CED7B350 /* SeedGuard.swift */; };
@@ -91,7 +91,6 @@
 		2CBE4411C1C83C1BDFB1EE2F /* PlanDiffApplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanDiffApplicator.swift; sourceTree = "<group>"; };
 		2D733C6A975225F7A329F1A1 /* Color+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Theme.swift"; sourceTree = "<group>"; };
 		2E261E26212CF43892B5235F /* NutritionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionViewModel.swift; sourceTree = "<group>"; };
-		2E2FFFAA9765B7D7737B2BF0 /* DayDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailSheet.swift; sourceTree = "<group>"; };
 		2F005448C1C8CF5CA4EA9CBE /* DailyAddition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAddition.swift; sourceTree = "<group>"; };
 		31A2FEB7407AC7B13B4CC4E9 /* DailyLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLog.swift; sourceTree = "<group>"; };
 		344BC3BF2E050F039B4DE0E9 /* APIKeyEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyEntryView.swift; sourceTree = "<group>"; };
@@ -118,6 +117,7 @@
 		9E68501C6C3F8DB8F4380E6D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9FC6C61E5DE6746CF76409A4 /* PlanHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanHistory.swift; sourceTree = "<group>"; };
 		A070D1D16F15FCBD489A7F44 /* SubstitutionEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstitutionEditor.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718091A2B3C /* TodaySnapshotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaySnapshotCard.swift; sourceTree = "<group>"; };
 		AA317FF88A21D8947D235987 /* MealItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealItemRow.swift; sourceTree = "<group>"; };
 		BC57881A4CDF8866F7304797 /* TrainingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingViewModel.swift; sourceTree = "<group>"; };
 		BE53427CF3376792ADE1F054 /* MealSlotCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSlotCard.swift; sourceTree = "<group>"; };
@@ -154,8 +154,8 @@
 		06625B2B0B41E605E57DAA4A /* Week */ = {
 			isa = PBXGroup;
 			children = (
-				2E2FFFAA9765B7D7737B2BF0 /* DayDetailSheet.swift */,
 				E3EBCFA799255B752C199E3F /* DayStatusCell.swift */,
+				A1B2C3D4E5F60718091A2B3C /* TodaySnapshotCard.swift */,
 				24745657EAE6882ADCED5DBC /* WeekSummaryBanner.swift */,
 				23E1740576C328E5C8718EBA /* WeekView.swift */,
 			);
@@ -437,7 +437,6 @@
 				48E13AAE0A26ADB1A250D7E5 /* DailyAddition.swift in Sources */,
 				A7F2AB96A40D22BF3019FBD5 /* DailyLog.swift in Sources */,
 				F354DFF5A0BA6C6E1812CCC2 /* Date+Extensions.swift in Sources */,
-				0056A445A3FF4139E2DCF82D /* DayDetailSheet.swift in Sources */,
 				8F61B6A39173FF7CA989ADAF /* DayStatusCell.swift in Sources */,
 				4B21563A70A98CA3E7C21802 /* DeviationLog.swift in Sources */,
 				90AFF257624496F0969E8FCC /* DeviationSheet.swift in Sources */,
@@ -476,6 +475,7 @@
 				75F59EFEB7E4B415582DE270 /* SleepView.swift in Sources */,
 				4CB033A4DD7EE643BF75D05A /* SleepViewModel.swift in Sources */,
 				45EE701D514DF7E468C001CF /* SubstitutionEditor.swift in Sources */,
+				B1C2D3E4F5061728394A5B6C /* TodaySnapshotCard.swift in Sources */,
 				84DA8B45F57D00C8E270B316 /* TrainingSession.swift in Sources */,
 				218569D66AFB72DA03409B43 /* TrainingView.swift in Sources */,
 				F608D03920A362DB8F404BDA /* TrainingViewModel.swift in Sources */,

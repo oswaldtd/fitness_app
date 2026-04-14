@@ -7,7 +7,6 @@ struct WeekView: View {
     @Query private var plans: [MealPlan]
 
     @State private var viewModel = WeekViewModel()
-    @State private var selectedDayForSheet: Date?
 
     private var activePlan: MealPlan? { plans.first(where: { $0.isActive }) }
 
@@ -18,6 +17,10 @@ struct WeekView: View {
         }
     }
 
+    private var todayLog: DailyLog? {
+        allLogs.first(where: { Calendar.current.isDateInToday($0.date) })
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -25,9 +28,16 @@ struct WeekView: View {
                     WeekSummaryBanner(
                         logs: weekLogs,
                         targetProtein: activePlan?.targetProteinG ?? 175,
+                        targetCalories: activePlan?.targetCal ?? 2050,
                         viewModel: viewModel
                     )
                     .padding(.horizontal)
+
+                    // Today snapshot
+                    if let log = todayLog, let plan = activePlan {
+                        TodaySnapshotCard(log: log, plan: plan)
+                            .padding(.horizontal)
+                    }
 
                     // Day grid
                     VStack(spacing: 0) {
@@ -44,9 +54,6 @@ struct WeekView: View {
                                     log: viewModel.log(for: day, from: weekLogs),
                                     isToday: Calendar.current.isDateInToday(day)
                                 )
-                                .onTapGesture {
-                                    selectedDayForSheet = day
-                                }
                             }
                         }
                         .padding(.horizontal)
@@ -66,9 +73,6 @@ struct WeekView: View {
             .navigationTitle(viewModel.weekRangeLabel)
             .navigationBarTitleDisplayMode(.inline)
         }
-        .sheet(item: $selectedDayForSheet) { day in
-            DayDetailSheet(date: day)
-        }
     }
 
     private var weekStatsSection: some View {
@@ -81,6 +85,9 @@ struct WeekView: View {
                 HStack(spacing: 10) {
                     if let avg = viewModel.avgProtein(logs: weekLogs) {
                         StatPill(label: "Protein", value: "\(Int(avg))g", color: .proteinColor)
+                    }
+                    if let avg = viewModel.avgCalories(logs: weekLogs) {
+                        StatPill(label: "Calories", value: "\(Int(avg))", color: .calorieColor)
                     }
                     if let avg = viewModel.avgSleep(logs: weekLogs) {
                         StatPill(label: "Sleep", value: String(format: "%.1f", avg), color: .sleepColor)
@@ -107,18 +114,15 @@ struct WeekView: View {
 
     private var emptyStateView: some View {
         VStack(spacing: 12) {
-            Image(systemName: "checkmark.circle.badge.questionmark")
+            Image(systemName: "chart.bar.doc.horizontal")
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)
-            Text("Tap any day to log your check-in")
+            Text("Your week fills in as you log meals, workouts, and sleep in their tabs.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
         }
+        .padding(.horizontal, 32)
         .padding(.vertical, 32)
     }
-}
-
-// MARK: - Date: Identifiable for sheet(item:)
-extension Date: @retroactive Identifiable {
-    public var id: TimeInterval { timeIntervalSince1970 }
 }

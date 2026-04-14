@@ -8,6 +8,8 @@ struct SleepView: View {
     @State private var viewModel = SleepViewModel()
     @State private var weekViewModel = WeekViewModel()
     @State private var todayLog: DailyLog?
+    @State private var sleepScore: Double = 5
+    @State private var energyScore: Double = 5
 
     private var checklist: SleepChecklist? {
         guard let log = todayLog else { return nil }
@@ -35,6 +37,57 @@ struct SleepView: View {
                         CortisolWarningBanner(
                             message: viewModel.cortisolWarningMessage(recentLogs: recentLogs)
                         )
+                        .padding(.horizontal)
+                    }
+
+                    // Sleep & energy rating
+                    if todayLog != nil {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("How did you feel today?")
+                                .font(.headline)
+                                .padding()
+
+                            Divider().padding(.horizontal)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack {
+                                    Label("Sleep quality", systemImage: "moon.fill")
+                                        .foregroundStyle(.sleepColor)
+                                    Spacer()
+                                    Text("\(Int(sleepScore)) / 10")
+                                        .font(.subheadline.monospacedDigit())
+                                        .foregroundStyle(.sleepColor)
+                                }
+                                Slider(value: $sleepScore, in: 1...10, step: 1)
+                                    .tint(.sleepColor)
+                                    .onChange(of: sleepScore) { _, newValue in
+                                        todayLog?.sleepQuality = Int(newValue)
+                                    }
+                            }
+                            .padding(.horizontal)
+                            .padding(.vertical, 10)
+
+                            Divider().padding(.horizontal)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack {
+                                    Label("Energy level", systemImage: "bolt.fill")
+                                        .foregroundStyle(.energyColor)
+                                    Spacer()
+                                    Text("\(Int(energyScore)) / 10")
+                                        .font(.subheadline.monospacedDigit())
+                                        .foregroundStyle(.energyColor)
+                                }
+                                Slider(value: $energyScore, in: 1...10, step: 1)
+                                    .tint(.energyColor)
+                                    .onChange(of: energyScore) { _, newValue in
+                                        todayLog?.energyLevel = Int(newValue)
+                                    }
+                            }
+                            .padding(.horizontal)
+                            .padding(.vertical, 10)
+                        }
+                        .cardStyle(padding: 0)
                         .padding(.horizontal)
                     }
 
@@ -123,6 +176,8 @@ struct SleepView: View {
         }
         .onAppear {
             todayLog = weekViewModel.findOrCreate(date: Date(), context: modelContext)
+            if let s = todayLog?.sleepQuality { sleepScore = Double(s) }
+            if let e = todayLog?.energyLevel { energyScore = Double(e) }
             ensureChecklist()
         }
     }

@@ -7,6 +7,7 @@ struct MealSlotCard: View {
     let log: DailyLog?
     let plan: MealPlan
     let onDeviation: () -> Void
+    var onMealToggled: () -> Void = {}
 
     @State private var isExpanded = true
 
@@ -110,6 +111,7 @@ struct MealSlotCard: View {
             let mealLog = MealLog(slot: slot)
             log.mealLogs.append(mealLog)
         }
+        onMealToggled()
     }
 }
 
